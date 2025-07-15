@@ -2,17 +2,6 @@ import nltk
 import pandas as pd
 from utils import strip_html_tags
 
-from nltk.corpus import wordnet, words, stopwords
-from nltk.stem import WordNetLemmatizer
-
-nltk.download('averaged_perceptron_tagger_eng', quiet=True)
-nltk.download('punkt_tab', quiet=True)
-nltk.download('wordnet', quiet=True)
-nltk.download('words', quiet=True)
-nltk.download('stopwords', quiet=True)
-
-lemmatizer = WordNetLemmatizer()
-
 
 def find_proper_nouns(text: str, debug: str = False) -> list[str]:
     """

@@ -1,5 +1,4 @@
 import nltk
-
 from nltk.corpus import wordnet, words, stopwords
 from nltk.stem import WordNetLemmatizer
 
@@ -10,11 +9,7 @@ nltk.download('words', quiet=True)
 nltk.download('stopwords', quiet=True)
 
 lemmatizer = WordNetLemmatizer()
-
-# Set of stopwords from NLTK
 STOPWORDS = set(stopwords.words("english"))
-
-# English vocabulary set for filtering unusual proper nouns
 ENGLISH_VOCAB = set(w.lower() for w in words.words())
 
 
