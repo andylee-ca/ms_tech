@@ -1,5 +1,7 @@
-import pandas as pd
-import numpy as np
+"""
+Functions for detecting different types of numbers in text, including Roman numerals.
+"""
+
 import re
 import nltk
 
@@ -30,13 +32,13 @@ def is_valid_roman(string):
 
 def is_noun_roman_bigram(bigram):
     """
-    Checks if the bigram contains a valid Roman numeral and a noun.
+    Checks if the bigram is (noun, valid Roman numeral).
 
     Args:
-        bigram (tuple): A tuple containing two words (bigram).
+        bigram (tuple): Two words.
 
     Returns:
-        bool: True if the first word is a valid Roman numeral and the second word is a noun, False otherwise.
+        bool: True if first is noun and second is valid Roman numeral.
     """
     return is_noun(bigram[0]) and is_valid_roman(bigram[1])
 
@@ -60,7 +62,7 @@ def find_valid_roman_numerals(input_text, debug=False):
         # Check if the word is a valid Roman numeral
         if debug:
             print(f"Checking token: {input_tokens[idx]} at index {idx}")
-        
+
         # If entire token is not uppercase, skip it
         if not input_tokens[idx].isupper():
             continue
@@ -83,9 +85,12 @@ def find_valid_roman_numerals(input_text, debug=False):
             if is_noun_roman_bigram((first_word, second_word)):
                 # If the previous word is a noun and the current word is a valid Roman numeral
                 if debug:
-                    print(f"Found valid Roman numeral: {first_word} {second_word} -- adding {input_tokens[idx]}")
+                    print(
+                        f"Found valid Roman numeral: {first_word} {second_word} "
+                        f"-- adding {input_tokens[idx]}"
+                    )
                 valid_roman_numerals.append(input_tokens[idx])
-        else: 
+        else:
             if is_valid_roman(input_tokens[idx]):
                 valid_roman_numerals.append(input_tokens[idx])
 
@@ -93,7 +98,6 @@ def find_valid_roman_numerals(input_text, debug=False):
         print(f"Original input: {input_text}")
         print(f"Valid Roman numerals found: {valid_roman_numerals}")
 
-    
     # Filter and return only valid Roman numerals
     return valid_roman_numerals
 

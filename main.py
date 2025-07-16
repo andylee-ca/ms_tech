@@ -1,8 +1,12 @@
-import pandas as pd
-import nltk
+"""
+Main script for curating and exporting Jeopardy question features.
+"""
 import re
+import os
+import nltk
+
 from curate_numbers import find_valid_roman_numerals
-from curate_non_english import find_non_english_word, STOPWORDS, lemmatizer
+from curate_non_english import find_non_english_word, lemmatizer
 from curate_unusual_proper_nouns import find_proper_nouns, generate_word_frequency
 from utils import load_json_data, strip_html_tags, strip_quotes, display_sample_questions
 
@@ -12,19 +16,36 @@ LOW_FREQUENCY_THRESHOLD = 2
 # Spelled-out numbers and their variations
 SPELLED_NUMBERS = [
     "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
-    "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty",
-    "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety",
-    "hundred", "thousand", "million", "billion"
+    "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen",
+    "eighteen", "nineteen", "twenty", "thirty", "forty", "fifty", "sixty", "seventy",
+    "eighty", "ninety", "hundred", "thousand", "million", "billion"
 ]
 
-SPELLED_NUMBERS += ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth']
-SPELLED_NUMBERS += ['eleventh', 'twelfth', 'thirteenth', 'fourteenth', 'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth', 'nineteenth']
-SPELLED_NUMBERS += ['twentieth', 'thirtieth', 'fortieth', 'fiftieth', 'sixtieth', 'seventieth', 'eightieth', 'ninetieth']
-SPELLED_NUMBERS += ['hundredth', 'thousandth', 'millionth', 'billionth']
-
-SPELLED_NUMBERS += ['twice', 'thrice', 'once']
-SPELLED_NUMBERS += ['single', 'double', 'triple', 'quadruple', 'quintuple', 'sextuple', 'septuple', 'octuple', 'nonuple', 'decuple']
-SPELLED_NUMBERS += ['dozen', 'fortnight', 'score', 'century', 'millennium']
+SPELLED_NUMBERS += [
+    'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth',
+    'ninth', 'tenth'
+]
+SPELLED_NUMBERS += [
+    'eleventh', 'twelfth', 'thirteenth', 'fourteenth', 'fifteenth', 'sixteenth',
+    'seventeenth', 'eighteenth', 'nineteenth'
+]
+SPELLED_NUMBERS += [
+    'twentieth', 'thirtieth', 'fortieth', 'fiftieth', 'sixtieth', 'seventieth',
+    'eightieth', 'ninetieth'
+]
+SPELLED_NUMBERS += [
+    'hundredth', 'thousandth', 'millionth', 'billionth'
+]
+SPELLED_NUMBERS += [
+    'twice', 'thrice', 'once'
+]
+SPELLED_NUMBERS += [
+    'single', 'double', 'triple', 'quadruple', 'quintuple', 'sextuple',
+    'septuple', 'octuple', 'nonuple', 'decuple'
+]
+SPELLED_NUMBERS += [
+    'dozen', 'fortnight', 'score', 'century', 'millennium'
+]
 
 # Set of spelled-out numbers for quick lookup
 SPELLED_NUMBERS_SET = set(SPELLED_NUMBERS)
@@ -36,6 +57,9 @@ JSON_FILE_PATH = './dataset/JEOPARDY_QUESTIONS1.json'
 def main():
     # Load your data
     df = load_json_data(JSON_FILE_PATH)
+
+    # Store list of feature names from the fresh import for use later
+    original_columns = df.columns.tolist()
 
     # Pre-cleaning steps
 
@@ -114,6 +138,31 @@ def main():
 
     # Print unusual proper noun samples
     display_sample_questions(df, lookup_column='has_unusual_proper_noun', extra_details_col='proper_nouns', sample_count=10)
+
+
+    # --- Export Curated Samples ---
+
+    # Sample 1000 based on the 'has_number' column, using the original columns
+    df_with_numbers = df[df['has_number']].sample(n=1000, random_state=42)[original_columns]
+
+    # Check if the export directory exists, create it if not    
+    if not os.path.exists('./export'):
+        os.makedirs('./export')
+
+    # Save the DF to JSON file
+    df_with_numbers.to_json('./export/JEOPARDY_QUESTIONS_numbers.json', orient='records', lines=False)
+
+    # Sample 1000 based on the 'has_non_english_word' column, using the original columns
+    df_with_non_english = df[df['has_non_english_word']].sample(n=1000, random_state=42)[original_columns]
+
+    # Save the DF to JSON file
+    df_with_non_english.to_json('./export/JEOPARDY_QUESTIONS_non_english.json', orient='records', lines=False)
+
+    # Sample 1000 based on the 'has_unusual_proper_noun' column, using the original columns
+    df_with_unusual_proper_nouns = df[df['has_unusual_proper_noun']].sample(n=1000, random_state=42)[original_columns]
+
+    # Save the DF to JSON file
+    df_with_unusual_proper_nouns.to_json('./export/JEOPARDY_QUESTIONS_unusual_proper_nouns.json', orient='records', lines=False)
 
 
 if __name__ == "__main__":

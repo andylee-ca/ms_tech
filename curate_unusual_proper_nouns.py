@@ -24,10 +24,21 @@ def find_proper_nouns(text: str, debug: str = False) -> list[str]:
     return [word for word, tag in tagged if tag in ("NNP", "NNPS")]
 
 
-def generate_word_frequency(df: pd.DataFrame, column: str):
+def generate_word_frequency(df: pd.DataFrame, column: str) -> pd.DataFrame:
+    """
+    Generate a DataFrame containing the frequency of each word 
+    in the specified column of the input DataFrame.
+
+    Args:
+        df (pd.DataFrame): The input DataFrame containing the questions.
+        column (str): The column name to analyze for word frequency.
+
+    Returns:
+        pd.DataFrame: A DataFrame with 'word' and 'frequency'.
+    """
     if column not in df.columns:
         raise ValueError(f"Column '{column}' does not exist in DataFrame")
-    
+
     # Concatenate all questions into a single string
     all_text = ' '.join(df[column].astype(str).tolist())
 

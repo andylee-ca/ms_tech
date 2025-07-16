@@ -1,3 +1,7 @@
+"""
+Functions for detecting non-English words in text using NLTK.
+"""
+
 import nltk
 from nltk.corpus import wordnet, words, stopwords
 from nltk.stem import WordNetLemmatizer
@@ -16,33 +20,32 @@ ENGLISH_VOCAB = set(w.lower() for w in words.words())
 def find_non_english_word(
         input_text: str,
         method: str = "wordnet",
-        stopword_list: set[str] | list[str] = STOPWORDS,
-        lemmatizer: "WordNetLemmatizer" = lemmatizer,
+        stopword_list: set[str] | list[str] = None,
+        lemmatizer: "WordNetLemmatizer" = None,
         debug: bool = False
     ) -> list[str]:
 
     """
-    Identify non-English words in the input text using POS tagging and lemmatization.
+    Identify non-English words in input_text using POS tagging and lemmatization.
 
     Args:
-        input_text (str): The input string to analyze.
-        method (str, optional): Method to determine if a word is English.
-            - "wordnet": Uses WordNet synsets (default).
-            - "en_dict": Uses the NLTK English vocabulary word list.
-        stopword_list (set or list of str): Required. A set or list of stopwords to ignore (e.g., set(stopwords.words("english"))).
-        lemmatizer (WordNetLemmatizer): Required. An instance of WordNetLemmatizer must be provided by the caller.
-        debug (bool, optional): If True, prints debug information. Default is False.
+        input_text (str): Text to analyze.
+        method (str): "wordnet", "en_dict", or "combined" for English word check.
+        stopword_list (set or list): Stopwords to ignore.
+        lemmatizer (WordNetLemmatizer): Lemmatizer instance.
+        debug (bool): If True, print debug info.
 
     Returns:
-        list: A list of non-English words found in the input text.
-
-    Notes:
-        - Only alphabetic, non-stopword, and non-function-tagged words are checked.
-        - POS tags excluded: NNP, NNPS, IN, DT, WP, WP$, WRB, PRP, PRP$, CC, TO, MD, EX, UH.
-        - The method parameter controls the English word check:
-            * "wordnet": A word is considered English if it has WordNet synsets.
-            * "en_dict": A word is considered English if it is in the NLTK English vocabulary.
+        list[str]: Non-English words found.
     """
+    # Use default stopwords if none provided
+    if stopword_list is None:
+        stopword_list = STOPWORDS
+
+    # Use default lemmatizer if none provided
+    if lemmatizer is None:
+        lemmatizer = WordNetLemmatizer()
+
     # Tags only used for tagged-based filtering
     excluded_pos_tags = ['NNP', 'NNPS', 'IN', 'DT', 'WP', 'WP$', 'WRB', 'PRP', 'PRP$', 'CC', 'TO', 'MD', 'EX', 'UH']
 
