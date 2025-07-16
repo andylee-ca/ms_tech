@@ -10,7 +10,7 @@ This project is designed to curate records from Jeopardy questions, focusing on 
    Ensure the dataset file is named `JEOPARDY_QUESTIONS.json`.
 
    The expected directory structure is:
-   ```
+   ```text
    ms_tech/
    ├── dataset/
    │   └── JEOPARDY_QUESTIONS.json
@@ -61,6 +61,7 @@ The curation process consists of several key steps to filter and export records 
 5. **Exporting Curated Samples:**  
    For each criterion, 1000 matching questions are sampled and exported to individual JSON files in the `export/` directory.
 
+
 ## Dependencies
 All required Python packages are listed in `requirements.txt`.
 
@@ -101,3 +102,18 @@ Curated samples are exported to:
 - `export/JEOPARDY_QUESTIONS_unusual_proper_nouns.json`
 
 Each file contains a sample of 1000 questions where the "question" field matches the respective criterion.
+
+## Assumptions and Notes
+
+- The curation process focuses exclusively on the "question" field. While other fields such as "category" and "answer" were explored, they were ultimately excluded because they may suggest a fit for the criteria but are not definitive. Since the goal is to curate questions that clearly match each criterion, only the "question" text was used for filtering.
+- For the "unusual proper noun" criterion, it is assumed that a proper noun is considered "unusual" if it appears two or fewer times across all questions. This is based on the assumption that proper nouns rarely recur in Jeopardy questions.
+- The detection of non-English words leverages both WordNet and the NLTK English vocabulary to maximize coverage and accuracy, while excluding common stopwords and certain parts of speech. WordNet captures post-lemmatization forms of words, while NLTK's vocabulary provides a broader set of English words.
+- The project uses [super-linter](https://github.com/github/super-linter) and other Python linters to help ensure code style and structure remain standardized.
+- The curated samples are randomly selected from all matching questions for each criterion. The total number of matches for each stratum may exceed 1000, but only 1000 are exported per requirement.
+
+## Estimated Counts
+
+Estimation of total examples for each type:
+- Records that have a number: 102767
+- Records that have a non-English word: 12332
+- Records that have an unusual proper noun: 27399
