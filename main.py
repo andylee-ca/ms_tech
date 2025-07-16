@@ -148,7 +148,7 @@ def main():
     df["question"] = df["question"].apply(strip_quotes)
 
     # --- Curate Numbers ---
-    print("Curating numbers... (this may take a few minutes)", end=" ")
+    print("Curating numbers (this may take a few minutes)...", end=" ", flush=True)
     # Check for spelled numbers in the 'question' column
     df["has_spelled_number"] = df["question"].apply(
         lambda x: bool(set(nltk.word_tokenize(x.lower())) & SPELLED_NUMBERS_SET)
@@ -167,7 +167,7 @@ def main():
     df["has_number"] = (
         df["has_spelled_number"] | df["has_numerical_value"] | df["has_roman_numeral"]
     )
-    print("Curating finished.", end="\n")
+    print("\033[92mCurating finished.\033[0m", end="\n")
 
     # Print curated number samples
     display_sample_questions(df, "has_spelled_number")
@@ -177,7 +177,7 @@ def main():
     # --- Curate Non-English Words ---
     print(
         "Curating non-English words (this may take few minutes)...",
-        end=" ",
+        end=" ", flush=True
     )
 
     df["non_english_words"] = df["question"].apply(
@@ -188,7 +188,7 @@ def main():
 
     df["has_non_english_word"] = df["non_english_words"].apply(lambda x: len(x) > 0)
 
-    print("Curating finished.", end="\n")
+    print("\033[92mCurating finished.\033[0m", end="\n")
 
     # Print non-English word samples
     display_sample_questions(
@@ -198,7 +198,7 @@ def main():
     # --- Curate Unusual Proper Nouns ---
     print(
         "Curating questions for unusual proper nouns (this may take few minutes)...",
-        end=" ",
+        end=" ", flush=True
     )
 
     df["proper_nouns"] = df["question"].apply(
@@ -220,7 +220,7 @@ def main():
         lambda x: bool(set(word.lower() for word in x) & unusual_words)
     )
 
-    print("Curating finished.", end="\n")
+    print("\033[92mCurating finished.\033[0m", end="\n")
 
     # Print unusual proper noun samples
     display_sample_questions(
@@ -277,6 +277,8 @@ def main():
     print(
         f"Records that have an unusual proper noun: {df['has_unusual_proper_noun'].sum()}"
     )
+    print()
+    print(f"All done!")
 
 
 if __name__ == "__main__":
