@@ -36,8 +36,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas numpy nltk
       
-      - name: Set PYTHONPATH for Super-Linter
-        run: echo "PYTHONPATH=$(python -c "import site; print(site.getsitepackages()[0])")" >> $GITHUB_ENV
+      - name: Set PYTHONPATH for Super-Linter        
+        run: 'echo "PYTHONPATH=$(python -c "import site; print(site.getsitepackages()[0])")" >> $GITHUB_ENV'
 
       - name: Run super-linter
         uses: github/super-linter@v6
