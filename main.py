@@ -1,8 +1,10 @@
 """
 Main script for curating and exporting Jeopardy question features.
 """
-import re
+
 import os
+import re
+
 import nltk
 
 from curate_numbers import find_valid_roman_numerals

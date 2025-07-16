@@ -3,8 +3,8 @@ Functions for detecting different types of numbers in text, including Roman nume
 """
 
 import re
-import nltk
 
+import nltk
 
 # Constants and Patterns
 

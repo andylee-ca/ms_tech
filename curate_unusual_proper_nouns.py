@@ -1,9 +1,14 @@
+"""
+Functions for curating unusual proper nouns from text.
+"""
+
 import nltk
 import pandas as pd
+
 from utils import strip_html_tags
 
 
-def find_proper_nouns(text: str, debug: str = False) -> list[str]:
+def find_proper_nouns(text: str, debug: bool = False) -> list[str]:
     """
     Extract all proper nouns (NNP, NNPS) from the input text.
 

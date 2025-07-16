@@ -2,8 +2,10 @@
 Functions for detecting non-English words in text using NLTK.
 """
 
+from typing import List, Optional, Set, Union
+
 import nltk
-from nltk.corpus import wordnet, words, stopwords
+from nltk.corpus import stopwords, wordnet, words
 from nltk.stem import WordNetLemmatizer
 
 nltk.download('averaged_perceptron_tagger_eng', quiet=True)
@@ -20,7 +22,7 @@ ENGLISH_VOCAB = set(w.lower() for w in words.words())
 def find_non_english_word(
         input_text: str,
         method: str = "wordnet",
-        stopword_list: set[str] | list[str] = None,
+        stopword_list: Optional[set[str] | list[str]] = None,
         lemmatizer: "WordNetLemmatizer" = None,
         debug: bool = False
     ) -> list[str]:
