@@ -176,8 +176,7 @@ def main():
 
     # --- Curate Non-English Words ---
     print(
-        "Curating non-English words (this may take few minutes)...",
-        end=" ", flush=True
+        "Curating non-English words (this may take few minutes)...", end=" ", flush=True
     )
 
     df["non_english_words"] = df["question"].apply(
@@ -198,7 +197,8 @@ def main():
     # --- Curate Unusual Proper Nouns ---
     print(
         "Curating questions for unusual proper nouns (this may take few minutes)...",
-        end=" ", flush=True
+        end=" ", 
+        flush=True
     )
 
     df["proper_nouns"] = df["question"].apply(
@@ -277,8 +277,7 @@ def main():
     print(
         f"Records that have an unusual proper noun: {df['has_unusual_proper_noun'].sum()}"
     )
-    print()
-    print(f"All done!")
+    print(f"\nAll done!")
 
 
 if __name__ == "__main__":
