@@ -6,12 +6,13 @@ import os
 import re
 
 import nltk
+
 from curate_non_english import find_non_english_word, lemmatizer
 from curate_numbers import find_valid_roman_numerals
 from curate_unusual_proper_nouns import find_proper_nouns, generate_word_frequency
 from utils import (
-    display_sample_questions, 
-    load_json_data, 
+    display_sample_questions,
+    load_json_data,
     strip_html_tags,
     strip_quotes,
 )
