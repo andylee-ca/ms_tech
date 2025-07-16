@@ -67,29 +67,38 @@ def find_valid_roman_numerals(input_text, debug=False):
         if not token.isupper():
             continue
 
+        # Second validation for short Roman numerals particularly "I", "V", "X"
         if len(token) <= 2:
-            if idx == 0:
-                continue  # Short words at the start are likely not valid Roman numerals
 
-            first_word, second_word = input_tokens[idx - 1], token
-            # If first word ends in comma or period, skip it
-            if first_word.endswith((",", ".", ";", ":")):
-                if debug:
-                    print(f"Skipping due to punctuation: {first_word}")
+            # a valid Roman numeral on first position is unlikely to be a valid Roman numeral
+            if idx == 0:
                 continue
 
-            # Remove any symbols from first word
-            first_word = re.sub(r"[^\w\s]", "", first_word)
+            # Extract first_word as the previous token before the roman numeral
+            # Second word is the current token; the roman numeral itself
+            previous_token, current_token = input_tokens[idx - 1], token
+            
+            # If previous token ends in comma or period, skip it
+            if previous_token.endswith((",", ".", ";", ":")):
+                if debug:
+                    print(f"Skipping due to punctuation: {previous_token}")
+                continue
 
-            # Check if previous word is a noun followed by a valid Roman numeral
-            if is_noun_roman_bigram((first_word, second_word)):
+            # Remove any symbols from previous token, as that may trigger false positives
+            previous_token = re.sub(r"[^\w\s]", "", previous_token)
+
+            # Check if the paired tokens are NP + Roman numeral            
+            if is_noun_roman_bigram((previous_token, current_token)):
                 # If the previous word is a noun and the current word is a valid Roman numeral
                 if debug:
                     print(
-                        f"Found valid Roman numeral: {first_word} {second_word} "
+                        f"Found valid Roman numeral: {previous_token} {current_token} "
                         f"-- adding {token}"
                     )
+
+                # Append the current token as a likely valid Roman numeral
                 valid_roman_numerals.append(token)
+
         else:
             if is_valid_roman(token):
                 valid_roman_numerals.append(token)
