@@ -12,7 +12,7 @@ Author: Andy Lee
 import os
 import re
 
-import nltk
+import nltk     # used for tokenization and POS tagging
 from curate_non_english import find_non_english_word, lemmatizer
 from curate_numbers import find_valid_roman_numerals
 from curate_unusual_proper_nouns import find_proper_nouns, generate_word_frequency
@@ -137,7 +137,7 @@ def main():
 
     # Pre-cleaning steps
     print("Pre-cleaning data...")
-    
+
     # duplicate 'question' to 'original_question' to preserve original text
     df["original_question"] = df["question"].copy()
 
@@ -269,6 +269,12 @@ def main():
 
     except Exception as e:
         print(f"Error during export: {e}")
+
+    # Display total counts of each feature
+    print("\nEstimation of total examples for each type:")
+    print(f"Records that have a number: {df['has_number'].sum()}")
+    print(f"Records that have a non-English word: {df['has_non_english_word'].sum()}")
+    print(f"Records that have an unusual proper noun: {df['has_unusual_proper_noun'].sum()}")
 
 
 if __name__ == "__main__":

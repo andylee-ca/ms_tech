@@ -77,7 +77,7 @@ def find_valid_roman_numerals(input_text, debug=False):
             # Extract first_word as the previous token before the roman numeral
             # Second word is the current token; the roman numeral itself
             previous_token, current_token = input_tokens[idx - 1], token
-            
+
             # If previous token ends in comma or period, skip it
             if previous_token.endswith((",", ".", ";", ":")):
                 if debug:
@@ -87,7 +87,7 @@ def find_valid_roman_numerals(input_text, debug=False):
             # Remove any symbols from previous token, as that may trigger false positives
             previous_token = re.sub(r"[^\w\s]", "", previous_token)
 
-            # Check if the paired tokens are NP + Roman numeral            
+            # Check if the paired tokens are NP + Roman numeral
             if is_noun_roman_bigram((previous_token, current_token)):
                 # If the previous word is a noun and the current word is a valid Roman numeral
                 if debug:

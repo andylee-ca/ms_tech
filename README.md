@@ -7,7 +7,7 @@ This project is designed to curate records from Jeopardy questions, focusing on 
 
 To execute the curation workflow, simply run:
 
-```
+```bash
 python main.py
 ```
 
@@ -30,7 +30,7 @@ The curation process consists of several key steps to filter and export records 
 
 3. **Non-English Word Detection:**  
    Using NLTK, the script first tags each word in the questions. It then identifies non-English words by checking against WordNet then the NLTK English vocabulary, excluding common stopwords and certain parts of speech. This helps in filtering out words that are likely not part of the English language.
-   
+
    The reason both WordNet and NLTK's vocabulary are used is to ensure a comprehensive check against both common and less common words, providing a more robust detection mechanism.
 
 4. **Unusual Proper Noun Extraction:**  
@@ -48,7 +48,7 @@ All required Python packages are listed in `requirements.txt`.
 
 To install, run:
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
