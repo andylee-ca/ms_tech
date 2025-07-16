@@ -8,10 +8,13 @@ import re
 import nltk
 from curate_non_english import find_non_english_word, lemmatizer
 from curate_numbers import find_valid_roman_numerals
-from curate_unusual_proper_nouns import (find_proper_nouns,
-                                         generate_word_frequency)
-from utils import (display_sample_questions, load_json_data, strip_html_tags,
-                   strip_quotes)
+from curate_unusual_proper_nouns import find_proper_nouns, generate_word_frequency
+from utils import (
+    display_sample_questions, 
+    load_json_data, 
+    strip_html_tags,
+    strip_quotes
+)
 
 # Threshold for low frequency words, used in filtering unusual proper nouns
 LOW_FREQUENCY_THRESHOLD = 2
@@ -210,14 +213,10 @@ def main():
 
     # Print unusual proper noun samples
     display_sample_questions(
-        df,
-        lookup_column="has_unusual_proper_noun",
-        extra_details_col="proper_nouns"
+        df, lookup_column="has_unusual_proper_noun", extra_details_col="proper_nouns"
     )
 
     # --- Export Curated Samples ---
-
-
     print("Exporting curated samples to JSON files...")
 
     try:
@@ -226,14 +225,12 @@ def main():
             os.makedirs("./export")
 
         # Sample 1000 based on the 'has_number' column, using the original columns
-        df_with_numbers = df[df["has_number"]].sample(
-            n=1000, random_state=42
-        )[original_columns]
+        df_with_numbers = df[df["has_number"]].sample(n=1000, random_state=42)[
+            original_columns
+        ]
 
         # Save the DF to JSON file
-        df_with_numbers.to_json(
-            EXPORT_PATH_NUMBERS, orient="records", lines=False
-        )
+        df_with_numbers.to_json(EXPORT_PATH_NUMBERS, orient="records", lines=False)
 
         # Sample 1000 based on the 'has_non_english_word' column, using the original columns
         df_with_non_english = df[df["has_non_english_word"]].sample(
@@ -261,7 +258,6 @@ def main():
 
     except Exception as e:
         print(f"Error during export: {e}")
-
 
 
 if __name__ == "__main__":
