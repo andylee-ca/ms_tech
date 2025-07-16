@@ -1,15 +1,17 @@
 """
-Utility functions for loading JSON data, cleaning text, and 
+Utility functions for loading JSON data, cleaning text, and
 displaying sample questions from a DataFrame.
 """
+
 import re
+
 import pandas as pd
 
 NUMBER_OF_SAMPLES_TO_SHOW = 3
 
 
 def load_json_data(file_path):
-    '''
+    """
     Loads JSON data from the specified file path into a pandas DataFrame.
 
     Args:
@@ -17,7 +19,7 @@ def load_json_data(file_path):
 
     Returns:
         pd.DataFrame: DataFrame containing the loaded JSON data, or None if loading fails.
-    '''
+    """
     try:
         data = pd.read_json(file_path, orient="records", lines=False)
         return data
@@ -36,11 +38,13 @@ def strip_html_tags(text):
     Returns:
         str: The string with HTML tags removed.
     """
-    clean = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
-    return re.sub(clean, '', text)
+    clean = re.compile("<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});")
+    return re.sub(clean, "", text)
 
 
-def display_sample_questions(df, lookup_column = None, extra_details_col = None, sample_count = 3):
+def display_sample_questions(
+    df, lookup_column=None, extra_details_col=None, sample_count=3
+):
     """
     Displays a sample of questions from the DataFrame where the specified lookup_column is True.
 
@@ -74,7 +78,9 @@ def display_sample_questions(df, lookup_column = None, extra_details_col = None,
     if extra_details_col is None:
         print(f"Sampling questions with '{lookup_column}' set to True:")
 
-        sample_list = df[df[lookup_column]].sample(sample_count)[['category', 'question']]
+        sample_list = df[df[lookup_column]].sample(sample_count)[
+            ["category", "question"]
+        ]
         for idx, row in sample_list.iterrows():
             print(f"{idx} - [{row['category']}] {row['question']}")
 
@@ -84,7 +90,9 @@ def display_sample_questions(df, lookup_column = None, extra_details_col = None,
             f"showing '{extra_details_col}':"
         )
 
-        sample_list = df[df[lookup_column]].sample(sample_count)[['category', 'question', extra_details_col]]
+        sample_list = df[df[lookup_column]].sample(sample_count)[
+            ["category", "question", extra_details_col]
+        ]
 
         for idx, row in sample_list.iterrows():
             print(
@@ -99,6 +107,8 @@ def strip_quotes(text):
     """
     Strips quotes only if it appears at the start and end of the argument text.
     """
-    if (text.startswith('"') and text.endswith('"')) or (text.startswith("'") and text.endswith("'")):
+    if (text.startswith('"') and text.endswith('"')) or (
+        text.startswith("'") and text.endswith("'")
+    ):
         return text[1:-1]
     return text

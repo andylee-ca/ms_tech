@@ -4,7 +4,6 @@ Functions for curating unusual proper nouns from text.
 
 import nltk
 import pandas as pd
-
 from utils import strip_html_tags
 
 
@@ -31,7 +30,7 @@ def find_proper_nouns(text: str, debug: bool = False) -> list[str]:
 
 def generate_word_frequency(df: pd.DataFrame, column: str) -> pd.DataFrame:
     """
-    Generate a DataFrame containing the frequency of each word 
+    Generate a DataFrame containing the frequency of each word
     in the specified column of the input DataFrame.
 
     Args:
@@ -45,7 +44,7 @@ def generate_word_frequency(df: pd.DataFrame, column: str) -> pd.DataFrame:
         raise ValueError(f"Column '{column}' does not exist in DataFrame")
 
     # Concatenate all questions into a single string
-    all_text = ' '.join(df[column].astype(str).tolist())
+    all_text = " ".join(df[column].astype(str).tolist())
 
     # Convert to lowercase and remove HTML tags
     all_text = all_text.lower()
@@ -57,9 +56,11 @@ def generate_word_frequency(df: pd.DataFrame, column: str) -> pd.DataFrame:
     freq_dist = nltk.FreqDist(words)
 
     # Convert the frequency distribution to a DataFrame
-    freq_df = pd.DataFrame(freq_dist.items(), columns=['word', 'frequency'])
+    freq_df = pd.DataFrame(freq_dist.items(), columns=["word", "frequency"])
 
     # Sort the DataFrame by frequency in descending order
-    freq_df = freq_df.sort_values(by='frequency', ascending=False).reset_index(drop=True)
+    freq_df = freq_df.sort_values(by="frequency", ascending=False).reset_index(
+        drop=True
+    )
 
     return freq_df

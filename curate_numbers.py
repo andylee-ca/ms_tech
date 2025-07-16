@@ -10,12 +10,12 @@ import nltk
 
 # Regex for matching roman numerals
 ROMAN_NUMERAL_PATTERN = re.compile(
-    r'^(M{0,3})(CM|CD|D?C{0,3})'
-    r'(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$', re.IGNORECASE
+    r"^(M{0,3})(CM|CD|D?C{0,3})" r"(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$", re.IGNORECASE
 )
 
 
 # Functions for Curating Numbers
+
 
 def is_valid_roman(string):
     """
@@ -58,28 +58,28 @@ def find_valid_roman_numerals(input_text, debug=False):
     input_tokens = input_text.split()
     valid_roman_numerals = []
 
-    for idx in range(len(input_tokens)):
+    for idx, token in enumerate(input_tokens):
         # Check if the word is a valid Roman numeral
         if debug:
-            print(f"Checking token: {input_tokens[idx]} at index {idx}")
+            print(f"Checking token: {token} at index {idx}")
 
         # If entire token is not uppercase, skip it
-        if not input_tokens[idx].isupper():
+        if not token.isupper():
             continue
 
-        if len(input_tokens[idx]) <= 2:
+        if len(token) <= 2:
             if idx == 0:
                 continue  # Short words at the start are likely not valid Roman numerals
 
-            first_word, second_word = input_tokens[idx-1], input_tokens[idx]
+            first_word, second_word = input_tokens[idx - 1], token
             # If first word ends in comma or period, skip it
-            if first_word.endswith((',', '.', ';', ':')):
+            if first_word.endswith((",", ".", ";", ":")):
                 if debug:
                     print(f"Skipping due to punctuation: {first_word}")
                 continue
 
             # Remove any symbols from first word
-            first_word = re.sub(r'[^\w\s]', '', first_word)
+            first_word = re.sub(r"[^\w\s]", "", first_word)
 
             # Check if previous word is a noun followed by a valid Roman numeral
             if is_noun_roman_bigram((first_word, second_word)):
@@ -87,12 +87,12 @@ def find_valid_roman_numerals(input_text, debug=False):
                 if debug:
                     print(
                         f"Found valid Roman numeral: {first_word} {second_word} "
-                        f"-- adding {input_tokens[idx]}"
+                        f"-- adding {token}"
                     )
-                valid_roman_numerals.append(input_tokens[idx])
+                valid_roman_numerals.append(token)
         else:
-            if is_valid_roman(input_tokens[idx]):
-                valid_roman_numerals.append(input_tokens[idx])
+            if is_valid_roman(token):
+                valid_roman_numerals.append(token)
 
     if debug:
         print(f"Original input: {input_text}")
@@ -114,4 +114,4 @@ def is_noun(word):
     """
     pos = nltk.pos_tag([word])[0][1]
     # Nouns in Penn Treebank tagset start with 'NN'
-    return pos.startswith('NN')
+    return pos.startswith("NN")
