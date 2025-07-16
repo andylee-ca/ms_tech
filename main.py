@@ -6,7 +6,6 @@ import os
 import re
 
 import nltk
-
 from curate_non_english import find_non_english_word, lemmatizer
 from curate_numbers import find_valid_roman_numerals
 from curate_unusual_proper_nouns import find_proper_nouns, generate_word_frequency
@@ -119,6 +118,9 @@ EXPORT_PATH_UNUSUAL_PROPER_NOUNS = (
 
 
 def main():
+    """
+    Main function to curate Jeopardy questions and export curated samples.
+    """
     # Load your data
     print("Loading JSON data from:", JSON_FILE_PATH)
     df = load_json_data(JSON_FILE_PATH)
@@ -220,33 +222,33 @@ def main():
     # --- Export Curated Samples ---
     print("Exporting curated samples to JSON files...")
 
+    # Sample 1000 based on the 'has_number' column, using the original columns
+    df_with_numbers = df[df["has_number"]].sample(n=1000, random_state=42)[
+        original_columns
+    ]
+
+    # Sample 1000 based on the 'has_non_english_word' column, using the original columns
+    df_with_non_english = df[df["has_non_english_word"]].sample(
+        n=1000, random_state=42
+    )[original_columns]
+
+    # Sample 1000 based on the 'has_unusual_proper_noun' column, using the original columns
+    df_with_unusual_proper_nouns = df[df["has_unusual_proper_noun"]].sample(
+        n=1000, random_state=42
+    )[original_columns]
+
     try:
         # Check if the export directory exists, create it if not
         if not os.path.exists("./export"):
             os.makedirs("./export")
 
-        # Sample 1000 based on the 'has_number' column, using the original columns
-        df_with_numbers = df[df["has_number"]].sample(n=1000, random_state=42)[
-            original_columns
-        ]
-
         # Save the DF to JSON file
         df_with_numbers.to_json(EXPORT_PATH_NUMBERS, orient="records", lines=False)
-
-        # Sample 1000 based on the 'has_non_english_word' column, using the original columns
-        df_with_non_english = df[df["has_non_english_word"]].sample(
-            n=1000, random_state=42
-        )[original_columns]
 
         # Save the DF to JSON file
         df_with_non_english.to_json(
             EXPORT_PATH_NON_ENGLISH, orient="records", lines=False
         )
-
-        # Sample 1000 based on the 'has_unusual_proper_noun' column, using the original columns
-        df_with_unusual_proper_nouns = df[df["has_unusual_proper_noun"]].sample(
-            n=1000, random_state=42
-        )[original_columns]
 
         # Save the DF to JSON file
         df_with_unusual_proper_nouns.to_json(
