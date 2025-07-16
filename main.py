@@ -13,7 +13,7 @@ from utils import (
     display_sample_questions, 
     load_json_data, 
     strip_html_tags,
-    strip_quotes
+    strip_quotes,
 )
 
 # Threshold for low frequency words, used in filtering unusual proper nouns
