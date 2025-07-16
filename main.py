@@ -197,8 +197,8 @@ def main():
     # --- Curate Unusual Proper Nouns ---
     print(
         "Curating questions for unusual proper nouns (this may take few minutes)...",
-        end=" ", 
-        flush=True
+        end=" ",
+        flush=True,
     )
 
     df["proper_nouns"] = df["question"].apply(
@@ -277,7 +277,7 @@ def main():
     print(
         f"Records that have an unusual proper noun: {df['has_unusual_proper_noun'].sum()}"
     )
-    print(f"\nAll done!")
+    print("\nAll done!")
 
 
 if __name__ == "__main__":
