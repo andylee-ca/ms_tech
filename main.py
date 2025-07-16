@@ -1,5 +1,12 @@
 """
 Main script for curating and exporting Jeopardy question features.
+
+Loads questions, applies criteria-based filtering (numbers, non-English words, unusual proper nouns),
+and exports curated samples to JSON files.
+
+See README.md for detailed workflow and usage.
+
+Author: Andy Lee
 """
 
 import os
@@ -129,7 +136,8 @@ def main():
     original_columns = df.columns.tolist()
 
     # Pre-cleaning steps
-
+    print("Pre-cleaning data...")
+    
     # duplicate 'question' to 'original_question' to preserve original text
     df["original_question"] = df["question"].copy()
 
