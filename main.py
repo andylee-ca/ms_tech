@@ -12,7 +12,7 @@ Author: Andy Lee
 import os
 import re
 
-import nltk     # used for tokenization and POS tagging
+import nltk  # used for tokenization and POS tagging
 from curate_non_english import find_non_english_word, lemmatizer
 from curate_numbers import find_valid_roman_numerals
 from curate_unusual_proper_nouns import find_proper_nouns, generate_word_frequency
