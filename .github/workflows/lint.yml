@@ -39,7 +39,7 @@ jobs:
       - name: Set PYTHONPATH for Super-Linter        
         run: |
           PYTHON_SITE_PACKAGES=$(python -c 'import site; print(site.getsitepackages()[0])')
-          printf "PYTHONPATH=%s\n" "$PYTHON_SITE_PACKAGES" >> $GITHUB_ENV
+          printf "PYTHONPATH=%s\n" "$PYTHON_SITE_PACKAGES" >> "$GITHUB_ENV"
 
       - name: Run super-linter
         uses: github/super-linter@v6
@@ -47,3 +47,4 @@ jobs:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_PYTHON: true
+          # VALIDATE_PYTHON_PYLINT: false
