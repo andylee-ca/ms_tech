@@ -274,7 +274,9 @@ def main():
     print("\nEstimation of total examples for each type:")
     print(f"Records that have a number: {df['has_number'].sum()}")
     print(f"Records that have a non-English word: {df['has_non_english_word'].sum()}")
-    print(f"Records that have an unusual proper noun: {df['has_unusual_proper_noun'].sum()}")
+    print(
+        f"Records that have an unusual proper noun: {df['has_unusual_proper_noun'].sum()}"
+    )
 
 
 if __name__ == "__main__":
