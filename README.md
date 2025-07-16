@@ -5,11 +5,29 @@ This project is designed to curate records from Jeopardy questions, focusing on 
 
 ## How to Run
 
-To execute the curation workflow, simply run:
+1. Download the dataset from [Google Drive](https://drive.google.com/file/d/0BwT5wj_P7BKXb2hfM3d2RHU1ckE/view?usp=sharing) and save it in the `dataset/` directory. The dataset is not included in the repository due to its size.
 
-```bash
-python main.py
-```
+   Ensure the dataset file is named `JEOPARDY_QUESTIONS.json`.
+
+   The expected directory structure is:
+   ```
+   ms_tech/
+   ├── dataset/
+   │   └── JEOPARDY_QUESTIONS.json
+   ├── export/
+   ├── main.py
+   ├── curate_non_english.py
+   ├── curate_numbers.py
+   ├── curate_unusual_proper_nouns.py
+   ├── utils.py
+   └── requirements.txt
+   ```
+
+2. To execute the curation workflow, run the following from the root directory of the project:
+
+   ```bash
+   python main.py
+   ```
 
 This process will take a few minutes and will generate curated JSON files in the `export/` directory.
 
